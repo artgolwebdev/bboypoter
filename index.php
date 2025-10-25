@@ -749,7 +749,9 @@
             // Show flow
             eventDate: '',
             eventTime: '',
-            budget: ''
+            budget: '',
+            // Approval step
+            approved: false
         };
 
         // Base steps (common for both flows)
@@ -779,12 +781,12 @@
             {
                 id: 'gender',
                 label: 'מגדר',
-                type: 'radio',
+                type: 'box',
                 flow: 'classes',
                 options: [
-                    { value: 'זכר', label: 'זכר' },
-                    { value: 'נקבה', label: 'נקבה' },
-                    { value: 'אחר', label: 'אחר' }
+                    { value: 'זכר', label: 'זכר', icon: '👨' },
+                    { value: 'נקבה', label: 'נקבה', icon: '👩' },
+                    { value: 'אחר', label: 'אחר', icon: '👤' }
                 ]
             },
             {
@@ -806,23 +808,40 @@
             {
                 id: 'level',
                 label: 'רמת ריקוד',
-                type: 'select',
+                type: 'box',
                 flow: 'classes',
-                options: ['מתחיל', 'בינוני', 'מתקדם', 'מקצועי']
+                options: [
+                    { value: 'מתחיל', label: 'מתחיל', icon: '🌱' },
+                    { value: 'בינוני', label: 'בינוני', icon: '🌿' },
+                    { value: 'מתקדם', label: 'מתקדם', icon: '🌳' },
+                    { value: 'מקצועי', label: 'מקצועי', icon: '🏆' }
+                ]
             },
             {
                 id: 'preferredDay',
                 label: 'יום מועדף בשבוע',
-                type: 'select',
+                type: 'box',
                 flow: 'classes',
-                options: ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי']
+                options: [
+                    { value: 'ראשון', label: 'ראשון', icon: '📅' },
+                    { value: 'שני', label: 'שני', icon: '📅' },
+                    { value: 'שלישי', label: 'שלישי', icon: '📅' },
+                    { value: 'רביעי', label: 'רביעי', icon: '📅' },
+                    { value: 'חמישי', label: 'חמישי', icon: '📅' },
+                    { value: 'שישי', label: 'שישי', icon: '📅' }
+                ]
             },
             {
                 id: 'preferredTime',
                 label: 'שעה מועדפת',
-                type: 'select',
+                type: 'box',
                 flow: 'classes',
-                options: ['בוקר (6:00-12:00)', 'צהריים (12:00-17:00)', 'ערב (17:00-21:00)', 'לילה (21:00-23:00)']
+                options: [
+                    { value: 'בוקר (6:00-12:00)', label: 'בוקר', icon: '🌅' },
+                    { value: 'צהריים (12:00-17:00)', label: 'צהריים', icon: '☀️' },
+                    { value: 'ערב (17:00-21:00)', label: 'ערב', icon: '🌆' },
+                    { value: 'לילה (21:00-23:00)', label: 'לילה', icon: '🌙' }
+                ]
             }
         ];
 
@@ -851,6 +870,14 @@
             }
         ];
 
+        // Approval step (common for both flows)
+        const approvalStep = {
+            id: 'approval',
+            label: 'אישור פרטים',
+            type: 'approval',
+            flow: 'both'
+        };
+
         function getActiveSteps() {
             let activeSteps = [...baseSteps];
 
@@ -859,6 +886,9 @@
             } else if (formData.interestedIn === 'show') {
                 activeSteps = [...activeSteps, ...showSteps];
             }
+
+            // Add approval step at the end
+            activeSteps.push(approvalStep);
 
             return activeSteps;
         }
@@ -1111,6 +1141,58 @@
                         stepDiv.appendChild(radioContainer);
                     }
                 }
+                // Box selection (new type for improved UX)
+                else if (step.type === 'box') {
+                    const boxContainer = document.createElement('div');
+                    boxContainer.className = 'artistic-options-container';
+
+                    step.options.forEach(option => {
+                        const artisticBox = document.createElement('div');
+                        artisticBox.className = 'artistic-box';
+                        
+                        const isChecked = formData[step.id] === option.value;
+                        if (isChecked) {
+                            artisticBox.classList.add('selected');
+                        }
+
+                        // Create artistic content
+                        const boxContent = document.createElement('div');
+                        boxContent.className = 'artistic-box-content';
+                        
+                        // Add icon
+                        const icon = document.createElement('div');
+                        icon.className = 'artistic-icon';
+                        icon.innerHTML = option.icon || '📋';
+                        
+                        const title = document.createElement('h3');
+                        title.className = 'artistic-title impact-font';
+                        title.textContent = option.label;
+                        
+                        const description = document.createElement('p');
+                        description.className = 'artistic-description';
+                        description.textContent = option.value; // Show full value as description
+
+                        boxContent.appendChild(icon);
+                        boxContent.appendChild(title);
+                        boxContent.appendChild(description);
+                        artisticBox.appendChild(boxContent);
+
+                        // Click handler with auto-advance
+                        artisticBox.onclick = () => {
+                            formData[step.id] = option.value;
+                            handleInputChange(step.id, option.value);
+                            
+                            // Auto-advance to next step after selection
+                            setTimeout(() => {
+                                nextStep();
+                            }, 300);
+                        };
+
+                        boxContainer.appendChild(artisticBox);
+                    });
+
+                    stepDiv.appendChild(boxContainer);
+                }
                 // Select dropdown
                 else if (step.type === 'select') {
                     const select = document.createElement('select');
@@ -1135,6 +1217,75 @@
 
                     stepDiv.appendChild(select);
                 }
+                // Approval step
+                else if (step.type === 'approval') {
+                    const approvalContainer = document.createElement('div');
+                    approvalContainer.className = 'approval-container';
+
+                    // Create summary of all selections
+                    const summary = document.createElement('div');
+                    summary.className = 'approval-summary';
+                    
+                    let summaryHTML = '<h3 class="approval-title impact-font">סיכום הפרטים שלך:</h3>';
+                    summaryHTML += '<div class="approval-details">';
+                    
+                    // Add name
+                    if (formData.name) {
+                        summaryHTML += `<div class="approval-item"><strong>שם:</strong> ${formData.name}</div>`;
+                    }
+                    
+                    // Add interest type
+                    if (formData.interestedIn === 'classes') {
+                        summaryHTML += '<div class="approval-item"><strong>סוג שירות:</strong> שיעורי ריקוד</div>';
+                        if (formData.gender) summaryHTML += `<div class="approval-item"><strong>מגדר:</strong> ${formData.gender}</div>`;
+                        if (formData.age) summaryHTML += `<div class="approval-item"><strong>גיל:</strong> ${formData.age}</div>`;
+                        if (formData.city) summaryHTML += `<div class="approval-item"><strong>עיר:</strong> ${formData.city}</div>`;
+                        if (formData.level) summaryHTML += `<div class="approval-item"><strong>רמת ריקוד:</strong> ${formData.level}</div>`;
+                        if (formData.preferredDay) summaryHTML += `<div class="approval-item"><strong>יום מועדף:</strong> ${formData.preferredDay}</div>`;
+                        if (formData.preferredTime) summaryHTML += `<div class="approval-item"><strong>שעה מועדפת:</strong> ${formData.preferredTime}</div>`;
+                    } else if (formData.interestedIn === 'show') {
+                        summaryHTML += '<div class="approval-item"><strong>סוג שירות:</strong> הופעה לאירוע</div>';
+                        if (formData.eventDate) summaryHTML += `<div class="approval-item"><strong>תאריך האירוע:</strong> ${new Date(formData.eventDate).toLocaleDateString('he-IL')}</div>`;
+                        if (formData.eventTime) summaryHTML += `<div class="approval-item"><strong>שעת האירוע:</strong> ${formData.eventTime}</div>`;
+                        if (formData.budget) summaryHTML += `<div class="approval-item"><strong>תקציב משוער:</strong> ${formData.budget}</div>`;
+                    }
+                    
+                    summaryHTML += '</div>';
+                    summary.innerHTML = summaryHTML;
+                    approvalContainer.appendChild(summary);
+
+                    // Add scroll instruction (hidden)
+                    const scrollInstruction = document.createElement('div');
+                    scrollInstruction.className = 'approval-scroll-instruction';
+                    scrollInstruction.style.display = 'none';
+                    approvalContainer.appendChild(scrollInstruction);
+                    
+                    // Add scroll detection
+                    const scrollContainer = stepDiv;
+                    const handleScroll = () => {
+                        const scrollTop = scrollContainer.scrollTop;
+                        const scrollHeight = scrollContainer.scrollHeight;
+                        const clientHeight = scrollContainer.clientHeight;
+                        const scrollPercentage = (scrollTop + clientHeight) / scrollHeight;
+                        
+                        // Enable submit when scrolled to bottom (95% threshold)
+                        if (scrollPercentage >= 0.95) {
+                            formData.approved = true;
+                            handleInputChange('approval', true);
+                        } else {
+                            formData.approved = false;
+                            handleInputChange('approval', false);
+                        }
+                    };
+                    
+                    // Add scroll listener
+                    scrollContainer.addEventListener('scroll', handleScroll);
+                    
+                    // Check initial scroll position
+                    setTimeout(handleScroll, 100);
+                    
+                    stepDiv.appendChild(approvalContainer);
+                }
 
                 formSteps.appendChild(stepDiv);
             });
@@ -1157,6 +1308,11 @@
             if (!currentStepData) return false;
 
             const value = formData[currentStepData.id];
+
+            // Special handling for approval step
+            if (currentStepData.type === 'approval') {
+                return formData.approved === true;
+            }
 
             // Check if value exists and is not empty
             if (!value) return false;

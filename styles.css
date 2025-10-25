@@ -30,7 +30,7 @@
     --border-radius: 0;
     --shadow-offset: 6px;
     --transition-speed: 0.3s;
-    --font-impact: 'Inter', 'Roboto', 'Arial Black', Arial, sans-serif;
+    --font-impact: 'Oswald', 'Inter', 'Arial Black', Arial, sans-serif;
     --font-system: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }
 
@@ -664,27 +664,136 @@ body {
 .artistic-options-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: clamp(16px, 2vw, 24px);
+    gap: clamp(12px, 1.5vw, 16px);
+    margin-top: clamp(12px, 1.5vw, 16px);
+    max-height: 50vh;
+    overflow-y: auto;
+    overflow-x: visible;
+    padding: 15px 8px 15px 0;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Approval Step Styles */
+.approval-container {
     margin-top: clamp(16px, 2vw, 24px);
+}
+
+.approval-summary {
+    background: #030712;
+    border: 3px solid #1f2937;
+    padding: clamp(20px, 3vw, 32px);
+    margin-bottom: clamp(20px, 3vw, 32px);
+    position: relative;
+    overflow: hidden;
+}
+
+.approval-title {
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    color: white;
+    margin-bottom: clamp(16px, 2vw, 24px);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.approval-details {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 1vw, 12px);
+}
+
+.approval-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: clamp(8px, 1vw, 12px) 0;
+    border-bottom: 1px solid #374151;
+    color: #d1d5db;
+    font-size: clamp(0.9rem, 1.25vw, 1.125rem);
+}
+
+.approval-item:last-child {
+    border-bottom: none;
+}
+
+.approval-item strong {
+    color: white;
+    font-weight: 600;
+    min-width: 120px;
+    text-align: right;
+}
+
+/* Scroll instruction for approval step */
+.approval-scroll-instruction {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: clamp(20px, 3vw, 32px);
+    transition: opacity 0.3s ease;
+}
+
+.scroll-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(8px, 1vw, 12px);
+    padding: clamp(16px, 2vw, 20px);
+    border: 3px solid #1f2937;
+    background: #030712;
+    border-radius: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.scroll-text {
+    font-size: clamp(1rem, 1.25vw, 1.125rem);
+    color: #60a5fa;
+    font-weight: 500;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.scroll-arrow {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    color: #60a5fa;
+    animation: bounce 2s infinite;
+    font-weight: bold;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
 }
 
 .artistic-box {
     position: relative;
     cursor: pointer;
     transition: all 0.3s ease;
-    border: 3px solid #1f2937;
+    border: 2px solid #1f2937;
     background: linear-gradient(135deg, #030712 0%, #111827 100%);
     overflow: hidden;
-    min-height: 120px;
+    min-height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 4px;
 }
 
 .artistic-box:hover {
-    transform: translateY(-4px);
+    transform: translateY(-2px);
     border-color: #60a5fa;
-    box-shadow: 0 8px 25px rgba(96, 165, 250, 0.2);
+    box-shadow: 0 4px 15px rgba(96, 165, 250, 0.15);
+    z-index: 10;
 }
 
 .artistic-box.selected {
@@ -695,28 +804,52 @@ body {
 
 .artistic-box-content {
     text-align: center;
-    padding: clamp(16px, 2vw, 24px);
+    padding: clamp(8px, 1vw, 12px);
     width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .artistic-icon {
-    font-size: clamp(2rem, 4vw, 3rem);
-    margin-bottom: clamp(8px, 1vw, 12px);
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    margin-bottom: clamp(4px, 0.5vw, 6px);
     display: block;
+    flex-shrink: 0;
 }
 
 .artistic-title {
-    font-size: clamp(1.25rem, 2vw, 1.5rem);
-    margin-bottom: clamp(6px, 1vw, 8px);
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    margin-bottom: clamp(2px, 0.3vw, 4px);
     color: white;
     text-transform: uppercase;
+    font-weight: 600;
+    line-height: 1.1;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    flex-shrink: 0;
 }
 
 .artistic-description {
-    font-size: clamp(0.875rem, 1.5vw, 1rem);
+    font-size: clamp(0.7rem, 1vw, 0.8rem);
     color: #9ca3af;
-    line-height: 1.4;
+    line-height: 1.2;
     margin: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 }
 
 /* Date Picker Styles */
@@ -1259,7 +1392,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    max-height: 65vh;
+    max-height: 70vh;
     position: relative;
     padding-right: 4px;
 }
@@ -1267,12 +1400,13 @@ body {
 .form-step {
     display: none;
     flex-direction: column;
-    height: 100%;
-    overflow-y: auto;
-    padding-right: 4px;
     min-height: 200px;
     width: 100%;
     box-sizing: border-box;
+    padding: 0 4px 20px 0;
+    overflow-y: auto;
+    overflow-x: visible;
+    max-height: 65vh;
 }
 
 .form-step.active {
@@ -1971,10 +2105,10 @@ body.modal-open, body.popup-open {
     }
 
     .form-steps-container {
-        max-height: 60vh;
+        max-height: 65vh;
         min-height: 200px;
-        overflow-x: hidden;
-        -webkit-overflow-scrolling: touch;
+        overflow: hidden;
+        padding-right: 4px;
     }
 
     .form-step {
@@ -2070,26 +2204,94 @@ body.modal-open, body.popup-open {
     /* Mobile artistic boxes */
     .artistic-options-container {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 12px;
+        margin-top: 12px;
+        max-height: 45vh;
+        overflow-y: auto;
+        overflow-x: visible;
+        padding: 15px 4px 15px 0;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Mobile approval step */
+    .approval-container {
         margin-top: 16px;
     }
 
+    .approval-summary {
+        padding: 16px;
+        margin-bottom: 20px;
+        border: 2px solid #1f2937;
+    }
+
+    .approval-title {
+        font-size: 1.25rem;
+        margin-bottom: 16px;
+    }
+
+    .approval-item {
+        padding: 8px 0;
+        font-size: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .approval-item strong {
+        min-width: auto;
+        text-align: left;
+        font-size: 0.9rem;
+        color: #60a5fa;
+    }
+
+    .approval-scroll-instruction {
+        margin-top: 20px;
+    }
+
+    .scroll-indicator {
+        padding: 16px;
+        border: 2px solid #1f2937;
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .scroll-text {
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+
+    .scroll-arrow {
+        font-size: 1.5rem;
+    }
+
     .artistic-box {
-        min-height: 100px;
+        min-height: 80px;
+        width: 100%;
+        box-sizing: border-box;
+        border: 2px solid #1f2937;
+    }
+
+    .artistic-box-content {
+        padding: 8px;
+        min-height: 70px;
     }
 
     .artistic-icon {
-        font-size: 2.5rem;
-        margin-bottom: 8px;
+        font-size: 1.5rem;
+        margin-bottom: 4px;
     }
 
     .artistic-title {
-        font-size: 1.25rem;
-        margin-bottom: 6px;
+        font-size: 0.85rem;
+        margin-bottom: 2px;
+        line-height: 1.1;
     }
 
     .artistic-description {
-        font-size: 0.875rem;
+        font-size: 0.7rem;
+        line-height: 1.1;
+        -webkit-line-clamp: 1;
     }
 
     /* Mobile date picker */
@@ -2547,26 +2749,42 @@ body.modal-open, body.popup-open {
 
     /* Very small screen artistic boxes */
     .artistic-options-container {
-        gap: 12px;
-        margin-top: 12px;
+        gap: 10px;
+        margin-top: 10px;
+        max-height: 40vh;
+        overflow-y: auto;
+        overflow-x: visible;
+        padding: 12px 4px 12px 0;
+        -webkit-overflow-scrolling: touch;
     }
 
     .artistic-box {
-        min-height: 80px;
+        min-height: 70px;
+        width: 100%;
+        box-sizing: border-box;
+        border: 2px solid #1f2937;
+    }
+
+    .artistic-box-content {
+        padding: 6px;
+        min-height: 60px;
     }
 
     .artistic-icon {
-        font-size: 2rem;
-        margin-bottom: 6px;
+        font-size: 1.2rem;
+        margin-bottom: 3px;
     }
 
     .artistic-title {
-        font-size: 1.125rem;
-        margin-bottom: 4px;
+        font-size: 0.75rem;
+        margin-bottom: 2px;
+        line-height: 1.1;
     }
 
     .artistic-description {
-        font-size: 0.8rem;
+        font-size: 0.65rem;
+        line-height: 1.1;
+        -webkit-line-clamp: 1;
     }
 
     /* Very small screen date picker */
