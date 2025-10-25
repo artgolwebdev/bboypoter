@@ -76,25 +76,25 @@
             <section class="image-gallery" aria-label="גלריית תמונות">
                 <div class="gallery-scroll-container" role="region" aria-label="גלריית תמונות - גלילה אופקית">
                     <div class="gallery-horizontal">
-                        <div class="gallery-item" onclick="openImagePopup('assets/img-1.jpg', 'Bboy Poter מבצע ריקוד ביבוי')">
+                        <div class="gallery-item" onclick="event.preventDefault(); openImagePopup('assets/img-1.jpg', 'Bboy Poter מבצע ריקוד ביבוי')">
                             <img src="assets/img-1.jpg" alt="Bboy Poter מבצע ריקוד ביבוי" loading="lazy">
                         </div>
-                        <div class="gallery-item" onclick="openImagePopup('assets/img-2.jpg', 'Bboy Poter מבצע ריקוד ביבוי')">
+                        <div class="gallery-item" onclick="event.preventDefault(); openImagePopup('assets/img-2.jpg', 'Bboy Poter מבצע ריקוד ביבוי')">
                             <img src="assets/img-2.jpg" alt="Bboy Poter מבצע ריקוד ביבוי" loading="lazy">
                         </div>
-                        <div class="gallery-item" onclick="openImagePopup('assets/img-3.jpg', 'Bboy Poter מבצע ריקוד ביבוי')">
+                        <div class="gallery-item" onclick="event.preventDefault(); openImagePopup('assets/img-3.jpg', 'Bboy Poter מבצע ריקוד ביבוי')">
                             <img src="assets/img-3.jpg" alt="Bboy Poter מבצע ריקוד ביבוי" loading="lazy">
                         </div>
-                        <div class="gallery-item" onclick="openImagePopup('assets/img-4.jpg', 'Bboy Poter מבצע ריקוד ביבוי')">
+                        <div class="gallery-item" onclick="event.preventDefault(); openImagePopup('assets/img-4.jpg', 'Bboy Poter מבצע ריקוד ביבוי')">
                             <img src="assets/img-4.jpg" alt="Bboy Poter מבצע ריקוד ביבוי" loading="lazy">
                         </div>
-                        <div class="gallery-item" onclick="openImagePopup('assets/img-5.jpg', 'Bboy Poter מבצע ריקוד ביבוי')">
+                        <div class="gallery-item" onclick="event.preventDefault(); openImagePopup('assets/img-5.jpg', 'Bboy Poter מבצע ריקוד ביבוי')">
                             <img src="assets/img-5.jpg" alt="Bboy Poter מבצע ריקוד ביבוי" loading="lazy">
                         </div>
-                        <div class="gallery-item" onclick="openImagePopup('assets/img-6.jpg', 'Bboy Poter מבצע ריקוד ביבוי')">
+                        <div class="gallery-item" onclick="event.preventDefault(); openImagePopup('assets/img-6.jpg', 'Bboy Poter מבצע ריקוד ביבוי')">
                             <img src="assets/img-6.jpg" alt="Bboy Poter מבצע ריקוד ביבוי" loading="lazy">
                         </div>
-                        <div class="gallery-item" onclick="openImagePopup('assets/img-7.jpg', 'Bboy Poter מבצע ריקוד ביבוי')">
+                        <div class="gallery-item" onclick="event.preventDefault(); openImagePopup('assets/img-7.jpg', 'Bboy Poter מבצע ריקוד ביבוי')">
                             <img src="assets/img-7.jpg" alt="Bboy Poter מבצע ריקוד ביבוי" loading="lazy">
                         </div>
                     </div>
@@ -407,6 +407,7 @@
                 popup.classList.add('active');
                 popup.setAttribute('aria-hidden', 'false');
                 
+                // Prevent body scroll without position fixed to avoid scroll jump
                 document.body.style.overflow = 'hidden';
                 document.body.classList.add('popup-open');
                 
@@ -431,6 +432,7 @@
                 popup.classList.remove('active');
                 popup.setAttribute('aria-hidden', 'true');
                 
+                // Restore body scroll without position manipulation
                 document.body.style.overflow = '';
                 document.body.classList.remove('popup-open');
                 
