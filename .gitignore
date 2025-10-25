@@ -113,7 +113,6 @@ temp/
 
 # PHP specific
 vendor/
-composer.lock
 composer.phar
 
 # XAMPP specific
