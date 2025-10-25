@@ -1215,7 +1215,7 @@
                 }
 
                 const encodedMessage = encodeURIComponent(message);
-                const whatsappUrl = `https://wa.me/972526967850?text=${encodedMessage}`;
+                const whatsappUrl = `https://wa.me/972527588442?text=${encodedMessage}`;
 
                 showToast('מעביר לוואטסאפ...');
                 setTimeout(() => {
