@@ -1,0 +1,25 @@
+{
+    "name": "artgolwebdev/bboypoter",
+    "description": "Bboy Poter - Professional Bboy Dancer Website",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ArtGol WebDev",
+            "email": "contact@artgolwebdev.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {},
+    "scripts": {
+        "start": "php -S 0.0.0.0:$PORT"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
